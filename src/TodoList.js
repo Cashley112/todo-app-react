@@ -8,13 +8,19 @@ class TodoList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos: [{ task: 'Water Plant', id: uuidv4() }, { task: 'Add Nutrients to Plant', id: uuidv4() }]
+            todos: []
         }
         this.addTask = this.addTask.bind(this);
+        this.removeTask = this.removeTask.bind(this);
     }
     addTask(newTask) {
         this.setState({
             todos: [...this.state.todos, newTask]
+        })
+    }
+    removeTask(id) {
+        this.setState({
+            todos: this.state.todos.filter(t => t.id !== id)
         })
     }
     render () {
@@ -22,6 +28,8 @@ class TodoList extends Component {
             return <Todo 
                     task={todo.task}
                     key={todo.id} 
+                    id={todo.id}
+                    removeTask={this.removeTask}
                     />
         })
         return (
