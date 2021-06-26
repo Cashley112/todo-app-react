@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Todo from './Todo';
 import NewTodoForm from './NewTodoForm';
-import { v4 as uuidv4 } from 'uuid';
 import './TodoList.css';
 
 class TodoList extends Component {
@@ -12,6 +11,7 @@ class TodoList extends Component {
         }
         this.addTask = this.addTask.bind(this);
         this.removeTask = this.removeTask.bind(this);
+        this.updateTask = this.updateTask.bind(this);
     }
     addTask(newTask) {
         this.setState({
@@ -23,6 +23,15 @@ class TodoList extends Component {
             todos: this.state.todos.filter(t => t.id !== id)
         })
     }
+    updateTask(id, updatedTask) {
+        const updatedTasks = this.state.todos.map(todo => {
+            if(todo.id === id) {
+                return {...todo, task: updatedTask}
+            }
+            return todo;
+        });
+        this.setState({ todos: updatedTasks })
+    }
     render () {
         const todos = this.state.todos.map(todo => {
             return <Todo 
@@ -30,6 +39,7 @@ class TodoList extends Component {
                     key={todo.id} 
                     id={todo.id}
                     removeTask={this.removeTask}
+                    updateTask={this.updateTask}
                     />
         })
         return (
